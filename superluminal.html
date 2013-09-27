@@ -1,0 +1,51 @@
+<head>
+
+  <!-- Basic Page Needs
+  ================================================== -->
+  <meta charset="utf-8">
+  <title>SuperLuminal</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  ================================================== -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+</head>
+<body>
+  <div class="container">
+    <div class="sixteen columns">
+      <h1 class="remove-bottom" style="margin-top: 40px">SuperLuminal</h1>
+    </div>
+    <div class="one-third column">
+      {{> subscriptions}}
+    </div>
+    <div class="two-third column">
+      <h3>Three Core Principles</h3>
+      <p>Skeleton is built on three core principles:</p>
+      <ul class="square">
+        <li><strong>A Responsive Grid Down To Mobile</strong>: Elegant scaling from a browser to tablets to mobile.</li>
+        <li><strong>Fast to Start</strong>: It's a tool for rapid development with best practices</li>
+        <li><strong>Style Agnostic</strong>: It provides the most basic, beautiful styles, but is meant to be overwritten.</li>
+      </ul>
+    </div>
+  </div>
+</body>
+
+
+<head>
+  <title>superluminal</title>
+</head>
+
+<template name="subscriptions">
+  <input id="feed_url" />
+  <button id="Subscribe">Subscribe</button>
+  <ul>
+  {{#each feeds}}
+    <li> {{this}} </li>
+  {{else}}
+    <li> No Feeds Detected </li>
+  {{/each}}
+  </ul>
+</template>
