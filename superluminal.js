@@ -1,5 +1,5 @@
-var require = __meteor_bootstrap__.require;
-var cheerio = require('cheerio');
+//var require = __meteor_bootstrap__.require;
+//var cheerio = require('cheerio');
 
 function get_feed(feed_url) {
   $.ajax({
