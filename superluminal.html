@@ -15,37 +15,44 @@
 </head>
 <body>
   <div class="container">
-    <div class="sixteen columns">
-      <h1 class="remove-bottom" style="margin-top: 40px">SuperLuminal</h1>
-    </div>
-    <div class="one-third column">
-      {{> subscriptions}}
-    </div>
-    <div class="two-third column">
-      <h3>Three Core Principles</h3>
-      <p>Skeleton is built on three core principles:</p>
-      <ul class="square">
-        <li><strong>A Responsive Grid Down To Mobile</strong>: Elegant scaling from a browser to tablets to mobile.</li>
-        <li><strong>Fast to Start</strong>: It's a tool for rapid development with best practices</li>
-        <li><strong>Style Agnostic</strong>: It provides the most basic, beautiful styles, but is meant to be overwritten.</li>
-      </ul>
-    </div>
-  </div>
+    {{> subscriptions}}
+    {{> podcasts}}
 </body>
 
 
-<head>
-  <title>superluminal</title>
-</head>
-
 <template name="subscriptions">
-  <input id="feed_url" />
-  <button id="Subscribe">Subscribe</button>
-  <ul>
-  {{#each feeds}}
-    <li> {{this}} </li>
-  {{else}}
-    <li> No Feeds Detected </li>
-  {{/each}}
+  <ul class="feed_list">
+    {{#each feeds}}
+      <li>
+      <div class="feed" data-id="{{_id}}">
+          <img src="{{image}}"/>
+          <h4>{{title}}</h4>
+          <div class="clear_both"/>
+          <!-- <p>{{description}}</p> -->
+        </div>
+      </li>
+    {{else}}
+      <li> No Feeds Detected </li>
+    {{/each}}
+    <li>
+      <div class="feed">
+        <button id="Update">Update</button>
+        <button id="Subscribe">Subscribe</button>
+        <input id="feed_url" />
+      </div>
+    </li>
+  </ul>
+</template>
+
+<template name="podcasts">
+  <ul class="podcasts">
+    {{#each casts}}
+      <li>
+      <h4>{{title}}</h4>
+      <p>{{pubDate}}</p>
+      </li>
+    {{else}}
+      <li> No Podcasts Detected </li>
+    {{/each}}
   </ul>
 </template>

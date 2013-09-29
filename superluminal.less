@@ -1,0 +1,78 @@
+/* Color definition */
+@prim0: #009999;  @prim1: #1D7373;  @prim2: #006363;  @prim3: #33CCCC;  @prim4: #5CCCCC;
+@secA0: #FFAA00;  @secA1: #BF8F30;  @secA2: #A66F00;  @secA3: #FFBF40;  @secA4: #FFD073;
+@secB0: #FF0000;  @secB1: #BF3030;  @secB2: #A60000;  @secB3: #FF4040;  @secB4: #FF7373;
+
+/* Variables */
+@primary_text_color: @prim0;
+@highlight_text_color: @secA4;
+@select_color: @secB0;
+
+@grid_size: 20px;
+
+body {
+  color: @primary_text_color;
+  opacity: 0.6;
+
+/* background grid */
+  @size: 2px;
+  @color: 20%;
+  @transparent: 40%;
+  background-color:#000;
+  background-image:
+    radial-gradient(circle @size at (@grid_size) (@grid_size), grey @color, transparent @transparent),
+    radial-gradient(circle @size at (@grid_size * 3) (@grid_size), grey @color, transparent @transparent),
+    radial-gradient(circle @size at (@grid_size) (@grid_size * 3), grey @color, transparent @transparent),
+    radial-gradient(circle @size at (@grid_size * 3) (@grid_size * 3), grey @color, transparent (@transparent + 5%));
+  background-size: (@grid_size * 4) (@grid_size * 4);
+  background-position: (@grid_size) (@grid_size), (@grid_size) (@grid_size);
+}
+h1, h2, h3, h4, h5, h6 {
+  color: @highlight_text_color;
+}
+
+div.container {
+  margin: (@grid_size * 4) (@grid_size * 12);
+}
+
+ul.feed_list {
+  width: (@grid_size * 20);
+  li:hover {
+    border-color: @select_color;
+  }
+
+  li:first-child {
+    height: (@grid_size * 6 - 1);
+    border-top: 1px solid;
+  }
+
+  li:last-child {
+    height: (@grid_size * 6 - 1);
+    border-bottom: 1px solid;
+  }
+
+  li {
+    padding: 0 (@grid_size * 1);
+    margin:  (@grid_size * 1) 0;
+    border-left: 1px solid;
+    border-right: 1px solid;
+    width: (@grid_size * 18 - 2px);
+    height: (@grid_size * 6);
+    div.feed {
+      padding:  (@grid_size * 1) 0;
+      img {
+        float: left;
+        max-width: (@grid_size * 4);
+        max-height: (@grid_size * 4);
+      }
+      button {
+        width: (@grid_size * 4);
+        height: (@grid_size * 4);
+      }
+    }
+  }
+}
+
+div.clear_both {
+  clear: both;
+}

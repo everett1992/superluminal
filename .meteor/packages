@@ -8,3 +8,7 @@ autopublish
 insecure
 preserve-inputs
 http
+npm
+coffeescript
+backbone
+less
