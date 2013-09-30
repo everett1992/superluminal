@@ -8,11 +8,13 @@
 @highlight_text_color: @secA4;
 @select_color: @secB0;
 
+// 1/2 distance between two dots
 @grid_size: 20px;
 
 body {
+  font-family: 'Titillium Web', Arial, Helvetica, sans-serif;
   color: @primary_text_color;
-  opacity: 0.6;
+  opacity: 0.8;
 
 /* background grid */
   @size: 2px;
@@ -27,49 +29,50 @@ body {
   background-size: (@grid_size * 4) (@grid_size * 4);
   background-position: (@grid_size) (@grid_size), (@grid_size) (@grid_size);
 }
+
 h1, h2, h3, h4, h5, h6 {
   color: @highlight_text_color;
 }
 
 div.container {
-  margin: (@grid_size * 4) (@grid_size * 12);
+  margin: (@grid_size) (@grid_size * 3);
 }
 
-ul.feed_list {
-  width: (@grid_size * 20);
-  li:hover {
-    border-color: @select_color;
-  }
+ul {
 
   li:first-child {
-    height: (@grid_size * 6 - 1);
-    border-top: 1px solid;
+    padding-top: (@grid_size * 1);
+    border-top: 2px solid;
+    border-radius: 10px 10px 0 0;
   }
 
   li:last-child {
-    height: (@grid_size * 6 - 1);
-    border-bottom: 1px solid;
+    padding: (@grid_size * 1);
+    border-bottom: 2px solid;
+    border-radius: 0 0 10px 10px;
   }
-
   li {
     padding: 0 (@grid_size * 1);
     margin:  (@grid_size * 1) 0;
-    border-left: 1px solid;
-    border-right: 1px solid;
-    width: (@grid_size * 18 - 2px);
-    height: (@grid_size * 6);
-    div.feed {
-      padding:  (@grid_size * 1) 0;
-      img {
-        float: left;
-        max-width: (@grid_size * 4);
-        max-height: (@grid_size * 4);
-      }
-      button {
-        width: (@grid_size * 4);
-        height: (@grid_size * 4);
-      }
-    }
+    border-left: 2px solid;
+    border-right: 2px solid;
+  }
+
+  li:hover {
+    border-color: @select_color;
+  }
+}
+
+div.podcast, div.feed {
+  //padding:  (@grid_size * 1) 0;
+  img {
+    float: left;
+    max-width: (@grid_size * 2);
+    max-height: (@grid_size * 2);
+    padding-right: (@grid_size * 1);
+  }
+  button {
+    height: (@grid_size * 2);
   }
 }
 

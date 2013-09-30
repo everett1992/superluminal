@@ -11,12 +11,21 @@
   ================================================== -->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
+  <!-- google fonts, trying out a bunch -->
+  <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,600' rel='stylesheet' type='text/css'>
+
 
 </head>
 <body>
   <div class="container">
-    {{> subscriptions}}
-    {{> podcasts}}
+    <div class="sixteen columns">
+      <div class="six columns">
+        {{> subscriptions}}
+      </div>
+      <div class="eight columns">
+        {{> podcasts}}
+      </div>
+    </div>
 </body>
 
 
@@ -26,7 +35,7 @@
       <li>
       <div class="feed" data-id="{{_id}}">
           <img src="{{image}}"/>
-          <h4>{{title}}</h4>
+          <h5>{{title}}</h5>
           <div class="clear_both"/>
           <!-- <p>{{description}}</p> -->
         </div>
@@ -34,22 +43,26 @@
     {{else}}
       <li> No Feeds Detected </li>
     {{/each}}
-    <li>
-      <div class="feed">
-        <button id="Update">Update</button>
-        <button id="Subscribe">Subscribe</button>
-        <input id="feed_url" />
-      </div>
-    </li>
   </ul>
+  <div class="feed">
+    <button id="Update">Update</button>
+    <button id="Subscribe">Subscribe</button>
+    <input id="feed_url" />
+  </div>
 </template>
 
 <template name="podcasts">
-  <ul class="podcasts">
+  <ul class="podcast_list">
     {{#each casts}}
       <li>
-      <h4>{{title}}</h4>
-      <p>{{pubDate}}</p>
+        <div class="podcast" data-id="{{_id}}">
+          <img src="{{feed_image}}"/>
+          <h5>{{title}}</h5>
+          <p>{{pubDate}}</p>
+          <audio autoplay="false" controls="controls">
+            <source src="{{url}}">
+          </audio>
+        </div>
       </li>
     {{else}}
       <li> No Podcasts Detected </li>

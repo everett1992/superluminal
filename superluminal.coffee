@@ -3,6 +3,7 @@
 @Feeds = new Meteor.Collection "Feeds"
 @Podcasts = new Meteor.Collection "Podcasts"
 #Podcasts.remove {}
+#Feeds.remove {}
 
 ###---------------------
 ---- Podcast Model -----
@@ -15,7 +16,7 @@ Podcast = (podcast) ->
   # verify requried properties are not empty
   _(req_attrs).each (prop) =>
     if _.isEmpty podcast[prop]
-      throw new Error("Podcast is missing required property: #{prop}")
+      throw new TypeError("Podcast is missing required property: #{prop}")
 
   podcast.pubDate = new Date(podcast.pubDate)
 
@@ -31,7 +32,7 @@ Podcast = (podcast) ->
 ------------------###
 Feed = (feed) ->
   attrs = ['url', 'title', 'link', 'description', 'image']
-  req_attrs = ['title', 'url']
+  req_attrs = ['title', 'url', 'image']
 
 
   # verify requried properties are not empty
@@ -53,13 +54,22 @@ if Meteor.isClient
   Template.subscriptions.feeds = () ->
     return  Feeds.find {}
 
+  Template.podcasts.helpers({
+    feed_image: () ->
+      return Feeds.findOne({_id: this.feed_id}).image
+  })
+
   Template.podcasts.casts = () ->
     return  Podcasts.find {}, {sort: {'pubDate': -1}}
 
 
+  ###-----------
+  --- Events ---
+  -----------###
   Template.subscriptions.events = {
     'click #Subscribe' : (a, template) ->
       feed_url = template.find('input#feed_url').value
+      template.find('input#feed_url').value = ''
       Meteor.call 'new_feed', feed_url, (error, result) -> console.log(result)
     'click #Update': (a, template) ->
       Feeds.find({}).forEach (feed) ->
@@ -90,8 +100,15 @@ if  Meteor.isServer
         image: $('channel > image > url').text()
       }
 
+      # Why?
+      unless feed.image
+        _($('channel').children()).each (child) -> # 'channel > itunes:image' dosn't find the tag
+          if child.name == 'image' || child.name == 'itunes:image'
+            feed.image = child.attribs.href || child.children[0].data
+
       feed = new Feed feed
-      Feeds.insert(feed)
+      feed._id = Feeds.insert(feed)
+      Meteor.call 'update_feed', feed
 
     update_feed: (feed) ->
       console.log '----------------------------------------------'
@@ -128,7 +145,7 @@ if  Meteor.isServer
           Podcasts.insert(podcast)
           console.log('added')
         catch err
-          console.log err.message
+          console.log err.message if (err instanceof TypeError)
 
 
       console.log '----------------------------------------------'
