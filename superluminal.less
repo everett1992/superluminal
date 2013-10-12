@@ -6,7 +6,8 @@
 /* Variables */
 @primary_text_color: @prim0;
 @highlight_text_color: @secA4;
-@select_color: @secB0;
+@select_color: @secA4;
+@hover_color: @secB0;
 
 // 1/2 distance between two dots
 @grid_size: 20px;
@@ -39,7 +40,6 @@ div.container {
 }
 
 ul {
-
   li:first-child {
     padding-top: (@grid_size * 1);
     border-top: 2px solid;
@@ -59,12 +59,17 @@ ul {
   }
 
   li:hover {
+    border-color: @hover_color;
+  }
+
+  li[selected=selected] {
     border-color: @select_color;
   }
 }
 
 div.podcast, div.feed {
   //padding:  (@grid_size * 1) 0;
+  min-height: (@grid_size * 2);
   img {
     float: left;
     max-width: (@grid_size * 2);

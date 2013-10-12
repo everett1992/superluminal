@@ -2,8 +2,6 @@
 
 @Feeds = new Meteor.Collection "Feeds"
 @Podcasts = new Meteor.Collection "Podcasts"
-#Podcasts.remove {}
-#Feeds.remove {}
 
 ###---------------------
 ---- Podcast Model -----
@@ -50,30 +48,80 @@ Feed = (feed) ->
   return this
 
 
+###------------------
+---- Client Code ----
+------------------###
 if Meteor.isClient
-  Template.subscriptions.feeds = () ->
-    return  Feeds.find {}
+  Session.setDefault 'selected_feed', {}
 
-  Template.podcasts.helpers({
+  ###-----------
+  ---- Data ----
+  -----------###
+  Template.feeds.feed = () ->
+    select = {}                    # Get all feeds
+    options = { sort: {title: 1} } # Sort alphabetically
+
+    return  Feeds.find(select, options)
+
+  # Each redraw calls Template.podcasts.feed three times, why?
+  Template.podcasts.casts = () ->
+    select = Session.get 'selected_feed' # Get selected podcasts
+    options =  { sort: {pubDate: -1} }   # Sort latest first
+
+    podcasts = Podcasts.find(select, options)
+    # console.log podcasts.count() # debug multi calls
+    return podcasts
+
+
+  ###------------
+  --- Helpers ---
+  ------------###
+  Template.podcast.helpers({
     feed_image: () ->
-      return Feeds.findOne({_id: this.feed_id}).image
+      feed_id = this.feed_id
+      feed = Feeds.findOne({_id: feed_id})
+      if feed
+        return feed.image # Is this terrible?
+      else
+        return null
   })
 
-  Template.podcasts.casts = () ->
-    return  Podcasts.find {}, {sort: {'pubDate': -1}}
+  Template.feeds.helpers({
+    selected: () ->
+      selected_feed_id = Session.get('selected_feed').feed_id
+      if selected_feed_id == this._id
+        return "selected=selected"
+      else
+        return ""
 
+  })
 
   ###-----------
   --- Events ---
   -----------###
-  Template.subscriptions.events = {
-    'click #Subscribe' : (a, template) ->
+  Template.feeds.events = {
+
+    'click #Subscribe': (a, template) ->
       feed_url = template.find('input#feed_url').value
       template.find('input#feed_url').value = ''
       Meteor.call 'new_feed', feed_url, (error, result) -> console.log(result)
+
     'click #Update': (a, template) ->
       Feeds.find({}).forEach (feed) ->
         Meteor.call 'update_feed', feed
+  }
+
+  Template.feed.events = {
+    'click': (a, template) ->
+      selected_feed_id = Session.get('selected_feed').feed_id
+
+      if selected_feed_id == this._id             # If the selected feed is selected again
+        next_selected_feed = {}                   # unselect all feeds.
+
+      else                                        # If a new feed is selected
+        next_selected_feed = {feed_id: this._id}  # store its id
+
+      Session.set 'selected_feed', next_selected_feed
   }
 
 if  Meteor.isServer

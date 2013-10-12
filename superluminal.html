@@ -20,7 +20,7 @@
   <div class="container">
     <div class="sixteen columns">
       <div class="six columns">
-        {{> subscriptions}}
+        {{> feeds}}
       </div>
       <div class="eight columns">
         {{> podcasts}}
@@ -29,16 +29,14 @@
 </body>
 
 
-<template name="subscriptions">
+<!--
+    Feed Templates
+                          -->
+<template name="feeds">
   <ul class="feed_list">
-    {{#each feeds}}
-      <li>
-      <div class="feed" data-id="{{_id}}">
-          <img src="{{image}}"/>
-          <h5>{{title}}</h5>
-          <div class="clear_both"/>
-          <!-- <p>{{description}}</p> -->
-        </div>
+    {{#each feed}}
+    <li {{selected}}>
+      {{> feed}}
       </li>
     {{else}}
       <li> No Feeds Detected </li>
@@ -51,21 +49,34 @@
   </div>
 </template>
 
+<template name="feed">
+  <div class="feed" data-id="{{_id}}">
+    <img src="{{image}}"/>
+    <h5>{{title}}</h5>
+    <div class="clear_both"/>
+    <!-- <p>{{description}}</p> -->
+  </div>
+</template>
+
+<!--
+    Podcast Templates
+                          -->
 <template name="podcasts">
   <ul class="podcast_list">
     {{#each casts}}
       <li>
-        <div class="podcast" data-id="{{_id}}">
-          <img src="{{feed_image}}"/>
-          <h5>{{title}}</h5>
-          <p>{{pubDate}}</p>
-          <audio preload="metadata" controls="controls">
-            <source src="{{url}}">
-          </audio>
-        </div>
+        {{> podcast}}
       </li>
     {{else}}
       <li> No Podcasts Detected </li>
     {{/each}}
   </ul>
+</template>
+
+<template name="podcast">
+  <div class="podcast" data-id="{{_id}}">
+    <img src="{{feed_image}}"/>
+    <h5>{{title}}</h5>
+    <p>{{pubDate}}</p>
+  </div>
 </template>
